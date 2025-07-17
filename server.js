@@ -3,6 +3,8 @@ const dotenv = require('dotenv');
 const cors = require('cors');
 const connectDB = require('./config/config');
 const bodyParser = require('body-parser');
+
+// Import routes
 const authRoutes = require('./routes/authRoutes');
 const categoryRoutes = require('./routes/categoryRoutes');
 const cartRoutes = require('./routes/cartRoutes');
@@ -12,6 +14,7 @@ const itemRoutes = require('./routes/itemRoutes');
 const orderRoutes = require('./routes/orderRoutes');
 const authenticateUser = require('./middleware/authMiddleware');
 
+// Load environment variables
 dotenv.config();
 
 // Initialize app and connect to MongoDB
@@ -33,8 +36,14 @@ app.use('/api/users', userRoutes);
 app.use('/api/items', itemRoutes);
 app.use('/api/orders', orderRoutes);
 
+// ✅ Root route to confirm backend is live
+app.get('/', (req, res) => {
+  res.send('Backend is live ✅');
+});
+
 // Global Error Handlers
 app.use((req, res, next) => res.status(404).json({ message: 'Route not found' }));
+
 app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).json({ message: 'Server Error' });
