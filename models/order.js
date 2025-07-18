@@ -17,7 +17,21 @@ const orderSchema = new mongoose.Schema({
     enum: ['pending', 'processing', 'shipped', 'completed', 'canceled'],
     default: 'pending',
   },
-  paymentMethod: { type: String, required: true },
+  paymentMethod: {
+      type: String,
+      enum: ['Cash', 'Card', 'UPI', 'Online'],
+      required: true,
+    },
+
+  // ✅ NEW FIELDS
+  orderType: {
+    type: String,
+    enum: ['dine-in', 'takeaway'],
+    required: true,
+  },
+  tableNumber: { type: String }, // Only for dine-in
+  pickupTime: { type: String },  // Only for takeaway
+
 }, { timestamps: true });
 
 module.exports = mongoose.model('Order', orderSchema);
